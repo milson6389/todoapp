@@ -7,6 +7,166 @@
     <title>TodoApp</title>
   </head>
   <body>
+    <header>
+      <h1>Todo App</h1>
+    </header>
+    <main>
+      <section id="profile">
+        <h3>Audie Milson - Staff Developer</h3>
+      </section>
+      <section id="todoForm">
+        <form id="addForm">
+          <div class="mb-3">
+            <label for="taskTodo" class="form-label"
+              >Todo
+              <span class="danger">*</span>
+            </label>
+            <textarea
+              name="taskTodo"
+              id="taskTodo"
+              class="form-control"
+            ></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="taskDueDate" class="form-label">Task Date</label>
+            <input type="date" name="taskDueDate" id="taskDueDate" />
+          </div>
+          <div class="mb-3">
+            <label for="taskPriority"
+              >Priority Level
+              <span class="danger">*</span>
+            </label>
+            <select name="taskPriority" id="taskPriority">
+              <option value="" selected disabled>--Choose One--</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <button id="searchTask" type="submit">Search</button>
+            <button id="addTask" type="submit">Add</button>
+          </div>
+        </form>
+      </section>
+      <section id="todoList">
+        <div class="clearAll">
+          <button id="clearTodo">Clear All</button>
+        </div>
+        <table id="new" border="0">
+          <tr>
+            <th colspan="5">New</th>
+            <th>
+              <button id="clearNew">Clear</button>
+            </th>
+          </tr>
+          <tr>
+            <th>#</th>
+            <th>Todo</th>
+            <th>Priority</th>
+            <th>Start Date</th>
+            <th>Due Date</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" name="takeTask" id="takeTask" />
+            </td>
+            <td>Test First Todo</td>
+            <td>High</td>
+            <td>Wednesday, 21 August 2024</td>
+            <td>Wednesday, 21 August 2024</td>
+            <td>
+              <button>Delete</button>
+            </td>
+          </tr>
+        </table>
+        <table id="inprogress" border="0">
+          <tr>
+            <th colspan="5">In Progress</th>
+            <th>
+              <button id="clearInp">Clear</button>
+            </th>
+          </tr>
+          <tr>
+            <th>#</th>
+            <th>Todo</th>
+            <th>Priority</th>
+            <th>Start Date</th>
+            <th>Due Date</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" name="progressTask" id="progressTask" />
+            </td>
+            <td>Test First Todo</td>
+            <td>High</td>
+            <td>Wednesday, 21 August 2024</td>
+            <td>Wednesday, 21 August 2024</td>
+            <td>
+              <button>Delete</button>
+            </td>
+          </tr>
+        </table>
+        <table id="complete" border="0">
+          <tr>
+            <th colspan="5">Done</th>
+            <th>
+              <button id="clearDone">Clear</button>
+            </th>
+          </tr>
+          <tr>
+            <th>#</th>
+            <th>Todo</th>
+            <th>Priority</th>
+            <th>Start Date</th>
+            <th>Due Date</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" name="completedTask" id="completedTask" />
+            </td>
+            <td>Test First Todo</td>
+            <td>High</td>
+            <td>Wednesday, 21 August 2024</td>
+            <td>Wednesday, 21 August 2024</td>
+            <td>
+              <button>Delete</button>
+            </td>
+          </tr>
+        </table>
+        <table id="overdue" border="0">
+          <tr>
+            <th colspan="5">Overdue</th>
+            <th>
+              <button id="clearOverdue">Clear</button>
+            </th>
+          </tr>
+          <tr>
+            <th>#</th>
+            <th>Todo</th>
+            <th>Priority</th>
+            <th>Start Date</th>
+            <th>Due Date</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" name="lateTask" id="lateTask" />
+            </td>
+            <td>Test First Todo</td>
+            <td>High</td>
+            <td>Wednesday, 21 August 2024</td>
+            <td>Wednesday, 21 August 2024</td>
+            <td>
+              <button>Delete</button>
+            </td>
+          </tr>
+        </table>
+      </section>
+    </main>
     <script src="./js/script.js"></script>
   </body>
 </html>
