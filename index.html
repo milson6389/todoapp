@@ -39,7 +39,12 @@
           </div>
           <div class="input-group">
             <label for="taskDueDate" class="form-label">Task Date</label>
-            <input type="date" name="taskDueDate" id="taskDueDate" />
+            <input
+              type="text"
+              name="taskDueDate"
+              id="taskDueDate"
+              onfocus="(this.type='date');"
+            />
           </div>
           <div class="input-group">
             <label for="taskPriority"
@@ -48,9 +53,9 @@
             </label>
             <select name="taskPriority" id="taskPriority">
               <option value="" selected disabled>--Choose One--</option>
-              <option value="high">High</option>
-              <option value="medium">Medium</option>
-              <option value="low">Low</option>
+              <option value="1">High</option>
+              <option value="2">Medium</option>
+              <option value="3">Low</option>
             </select>
             <p class="priorityEmpty danger" hidden>
               *Todo Task Priority Cannot be Empty
