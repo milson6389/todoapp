@@ -5,3 +5,162 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+body {
+  font-family: sans-serif;
+}
+
+header,
+main,
+section {
+  margin: 1% 5%;
+}
+
+header {
+  text-align: center;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+}
+
+section {
+  border: 1px solid #000;
+  padding: 3%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-x: auto;
+}
+
+button {
+  padding: 10px 20px;
+}
+
+.danger {
+  color: red;
+}
+
+#profile {
+  justify-content: center;
+  align-items: center;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2%;
+}
+
+.input-group label {
+  font-weight: bold;
+}
+
+.input-group input,
+.input-group select {
+  padding: 10px;
+}
+
+.input-group p.danger {
+  margin-top: 5px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+}
+
+.button-group button {
+  width: 100%;
+}
+
+.clearAll {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-bottom: 5%;
+}
+
+.table-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 5%;
+}
+
+table {
+  border-collapse: collapse;
+  margin-bottom: 3%;
+  text-align: center;
+}
+
+.tableTitle {
+  background-color: #000;
+  color: #fff;
+  padding: 10px 20px;
+}
+
+tr {
+  border-bottom: 1px solid #000;
+}
+
+.colTitle th {
+  padding: 10px 0;
+}
+
+.priorityHigh {
+  color: salmon;
+}
+
+.priorityMed {
+  color: darkgoldenrod;
+}
+
+.priorityLow {
+  color: forestgreen;
+}
+
+button.deleteTodo {
+  border: none;
+  color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+.taskChecked {
+  text-decoration: line-through;
+}
+
+@media only screen and (max-width: 576px) {
+  header,
+  section {
+    margin: 2%;
+  }
+  main {
+    flex-direction: column;
+    margin: 5%;
+  }
+  .table-container {
+    grid-template-columns: auto;
+  }
+}
+
+@media only screen and (max-width: 1024px) and (min-width: 577px) {
+  main {
+    flex-direction: column;
+    margin: 5%;
+  }
+
+  button {
+    padding: 10px;
+  }
+
+  .table-container {
+    grid-template-columns: auto;
+  }
+}

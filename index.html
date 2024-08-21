@@ -3,6 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link rel="stylesheet" href="./css/style.css" />
     <title>TodoApp</title>
   </head>
@@ -12,11 +19,11 @@
     </header>
     <main>
       <section id="profile">
-        <h3>Audie Milson - Staff Developer</h3>
+        <h3>Audie Milson - Web Developer</h3>
       </section>
       <section id="todoForm">
-        <form id="addForm">
-          <div class="mb-3">
+        <form>
+          <div class="input-group">
             <label for="taskTodo" class="form-label"
               >Todo
               <span class="danger">*</span>
@@ -26,12 +33,15 @@
               id="taskTodo"
               class="form-control"
             ></textarea>
+            <p class="titleEmpty danger" hidden>
+              *Todo Task Title Cannot be Empty
+            </p>
           </div>
-          <div class="mb-3">
+          <div class="input-group">
             <label for="taskDueDate" class="form-label">Task Date</label>
             <input type="date" name="taskDueDate" id="taskDueDate" />
           </div>
-          <div class="mb-3">
+          <div class="input-group">
             <label for="taskPriority"
               >Priority Level
               <span class="danger">*</span>
@@ -42,8 +52,11 @@
               <option value="medium">Medium</option>
               <option value="low">Low</option>
             </select>
+            <p class="priorityEmpty danger" hidden>
+              *Todo Task Priority Cannot be Empty
+            </p>
           </div>
-          <div class="mb-3">
+          <div class="button-group">
             <button id="searchTask" type="submit">Search</button>
             <button id="addTask" type="submit">Add</button>
           </div>
@@ -51,120 +64,181 @@
       </section>
       <section id="todoList">
         <div class="clearAll">
-          <button id="clearTodo">Clear All</button>
+          <button id="clearTodo">
+            <i class="fa-solid fa-trash"></i>
+            Delete All
+          </button>
         </div>
-        <table id="new" border="0">
-          <tr>
-            <th colspan="5">New</th>
-            <th>
-              <button id="clearNew">Clear</button>
-            </th>
-          </tr>
-          <tr>
-            <th>#</th>
-            <th>Todo</th>
-            <th>Priority</th>
-            <th>Start Date</th>
-            <th>Due Date</th>
-            <th>Action</th>
-          </tr>
-          <tr>
-            <td>
-              <input type="checkbox" name="takeTask" id="takeTask" />
-            </td>
-            <td>Test First Todo</td>
-            <td>High</td>
-            <td>Wednesday, 21 August 2024</td>
-            <td>Wednesday, 21 August 2024</td>
-            <td>
-              <button>Delete</button>
-            </td>
-          </tr>
-        </table>
-        <table id="inprogress" border="0">
-          <tr>
-            <th colspan="5">In Progress</th>
-            <th>
-              <button id="clearInp">Clear</button>
-            </th>
-          </tr>
-          <tr>
-            <th>#</th>
-            <th>Todo</th>
-            <th>Priority</th>
-            <th>Start Date</th>
-            <th>Due Date</th>
-            <th>Action</th>
-          </tr>
-          <tr>
-            <td>
-              <input type="checkbox" name="progressTask" id="progressTask" />
-            </td>
-            <td>Test First Todo</td>
-            <td>High</td>
-            <td>Wednesday, 21 August 2024</td>
-            <td>Wednesday, 21 August 2024</td>
-            <td>
-              <button>Delete</button>
-            </td>
-          </tr>
-        </table>
-        <table id="complete" border="0">
-          <tr>
-            <th colspan="5">Done</th>
-            <th>
-              <button id="clearDone">Clear</button>
-            </th>
-          </tr>
-          <tr>
-            <th>#</th>
-            <th>Todo</th>
-            <th>Priority</th>
-            <th>Start Date</th>
-            <th>Due Date</th>
-            <th>Action</th>
-          </tr>
-          <tr>
-            <td>
-              <input type="checkbox" name="completedTask" id="completedTask" />
-            </td>
-            <td>Test First Todo</td>
-            <td>High</td>
-            <td>Wednesday, 21 August 2024</td>
-            <td>Wednesday, 21 August 2024</td>
-            <td>
-              <button>Delete</button>
-            </td>
-          </tr>
-        </table>
-        <table id="overdue" border="0">
-          <tr>
-            <th colspan="5">Overdue</th>
-            <th>
-              <button id="clearOverdue">Clear</button>
-            </th>
-          </tr>
-          <tr>
-            <th>#</th>
-            <th>Todo</th>
-            <th>Priority</th>
-            <th>Start Date</th>
-            <th>Due Date</th>
-            <th>Action</th>
-          </tr>
-          <tr>
-            <td>
-              <input type="checkbox" name="lateTask" id="lateTask" />
-            </td>
-            <td>Test First Todo</td>
-            <td>High</td>
-            <td>Wednesday, 21 August 2024</td>
-            <td>Wednesday, 21 August 2024</td>
-            <td>
-              <button>Delete</button>
-            </td>
-          </tr>
-        </table>
+        <div class="table-container">
+          <table id="new">
+            <tr>
+              <th class="tableTitle" colspan="6">New</th>
+            </tr>
+            <tr class="colTitle">
+              <th>#</th>
+              <th>Todo</th>
+              <th>Priority</th>
+              <th>Start Date</th>
+              <th>Due Date</th>
+              <th>Action</th>
+            </tr>
+            <tr>
+              <td>
+                <input type="checkbox" name="takeTask" id="takeTask" />
+              </td>
+              <td class="taskChecked">Test First Todo</td>
+              <td class="priorityHigh">High</td>
+              <td>Wednesday, 21 August 2024</td>
+              <td>Wednesday, 21 August 2024</td>
+              <td>
+                <button class="deleteTodo">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="checkbox" name="takeTask" id="takeTask" />
+              </td>
+              <td>Test First Todo</td>
+              <td class="priorityMed">Medium</td>
+              <td>Wednesday, 21 August 2024</td>
+              <td>Wednesday, 21 August 2024</td>
+              <td>
+                <button class="deleteTodo">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="checkbox" name="takeTask" id="takeTask" />
+              </td>
+              <td>Test First Todo</td>
+              <td class="priorityLow">Low</td>
+              <td>Wednesday, 21 August 2024</td>
+              <td>Wednesday, 21 August 2024</td>
+              <td>
+                <button class="deleteTodo">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </table>
+          <table id="inprogress">
+            <tr>
+              <th class="tableTitle" colspan="6">In Progress</th>
+            </tr>
+            <tr class="colTitle">
+              <th>#</th>
+              <th>Todo</th>
+              <th>Priority</th>
+              <th>Start Date</th>
+              <th>Due Date</th>
+              <th>Action</th>
+            </tr>
+            <tr>
+              <td>
+                <input type="checkbox" name="takeTask" id="takeTask" />
+              </td>
+              <td class="taskChecked">Test First Todo</td>
+              <td class="priorityHigh">High</td>
+              <td>Wednesday, 21 August 2024</td>
+              <td>Wednesday, 21 August 2024</td>
+              <td>
+                <button class="deleteTodo">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="checkbox" name="takeTask" id="takeTask" />
+              </td>
+              <td>Test First Todo</td>
+              <td class="priorityMed">Medium</td>
+              <td>Wednesday, 21 August 2024</td>
+              <td>Wednesday, 21 August 2024</td>
+              <td>
+                <button class="deleteTodo">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="checkbox" name="takeTask" id="takeTask" />
+              </td>
+              <td>Test First Todo</td>
+              <td class="priorityLow">Low</td>
+              <td>Wednesday, 21 August 2024</td>
+              <td>Wednesday, 21 August 2024</td>
+              <td>
+                <button class="deleteTodo">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </table>
+          <table id="complete">
+            <tr>
+              <th class="tableTitle" colspan="6">Done</th>
+            </tr>
+            <tr class="colTitle">
+              <th>#</th>
+              <th>Todo</th>
+              <th>Priority</th>
+              <th>Start Date</th>
+              <th>Due Date</th>
+              <th>Action</th>
+            </tr>
+            <tr>
+              <td>
+                <input
+                  type="checkbox"
+                  name="completedTask"
+                  id="completedTask"
+                />
+              </td>
+              <td>Test First Todo</td>
+              <td>High</td>
+              <td>Wednesday, 21 August 2024</td>
+              <td>Wednesday, 21 August 2024</td>
+              <td>
+                <button class="deleteTodo">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </table>
+          <table id="overdue">
+            <tr>
+              <th class="tableTitle" colspan="6">Overdue</th>
+            </tr>
+            <tr class="colTitle">
+              <th>#</th>
+              <th>Todo</th>
+              <th>Priority</th>
+              <th>Start Date</th>
+              <th>Due Date</th>
+              <th>Action</th>
+            </tr>
+            <tr>
+              <td>
+                <input type="checkbox" name="lateTask" id="lateTask" />
+              </td>
+              <td>Test First Todo</td>
+              <td>High</td>
+              <td>Wednesday, 21 August 2024</td>
+              <td>Wednesday, 21 August 2024</td>
+              <td>
+                <button class="deleteTodo">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
       </section>
     </main>
     <script src="./js/script.js"></script>
