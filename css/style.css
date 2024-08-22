@@ -88,6 +88,8 @@ button {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(2, auto);
+  justify-content: center;
+  align-items: center;
   gap: 5%;
 }
 
@@ -105,6 +107,10 @@ table {
 
 tr {
   border-bottom: 1px solid #000;
+}
+
+td {
+  padding: 0 5px;
 }
 
 .colTitle th {
@@ -130,6 +136,7 @@ button.deleteTodo {
   justify-content: center;
   align-items: center;
   margin: auto;
+  cursor: pointer;
 }
 
 .taskChecked {
@@ -147,6 +154,9 @@ button.deleteTodo {
   }
   .table-container {
     grid-template-columns: auto;
+  }
+  td {
+    padding: 0;
   }
 }
 
