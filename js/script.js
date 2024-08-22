@@ -98,7 +98,7 @@ const refreshArrayContentSource = (
 ) => {
   currentTodos = source.filter(
     (todo) =>
-      todo.task.includes(query.task) &&
+      todo.task.toLowerCase().includes(query.task.toLowerCase()) &&
       query.priority.includes(todo.priority) &&
       todo.startDt == query.startDt
   );
@@ -112,7 +112,7 @@ const refreshArrayContentSource = (
   late_todos = source.filter(
     (todo) =>
       todo.status !== Status.DONE &&
-      todo.task.includes(query.task) &&
+      todo.task.toLowerCase().includes(query.task.toLowerCase()) &&
       query.priority.includes(todo.priority) &&
       todo.dueDt < new Date().toLocaleDateString()
   );
@@ -162,7 +162,11 @@ const addTodo = () => {
         ? new Date(inputDueDate.value).toLocaleDateString()
         : new Date().toLocaleDateString(),
       priority: parseInt(inputPriority.value),
-      status: Status.NEW,
+      status:
+        new Date(inputDueDate.value).toLocaleDateString() <
+        new Date().toLocaleDateString()
+          ? Status.LATE
+          : Status.NEW,
     };
     todos.push(newTodo);
     localStorage.setItem("todo", JSON.stringify(todos));
@@ -223,9 +227,47 @@ const generateTableRowData = (data) => {
   let template = `
     <tr class="${checkedStyleClass}" id="${data.id}">
       <td>
-        <input type="checkbox" name="takeTask" id="takeTask_${data.id}" />
+        <input type="checkbox" ${
+          data.status === Status.DONE ? "checked" : ""
+        } name="takeTask" id="takeTask_${data.id}" onclick="updateTodoById(${
+    data.id
+  })"  />
       </td>
       <td>${data.task}</td>
+      <td class="${taskPriorityStyleClass}">${taskPriorityText}</td>
+      <td>${dateFormatter(data.startDt)}</td>
+      <td>${dateFormatter(data.dueDt)}</td>
+      <td>
+        <button class="deleteTodo" onclick="deleteTodoById(${data.id})">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </td>
+    </tr>
+  `;
+  return template;
+};
+
+const generateTableDoneData = (data) => {
+  let taskPriorityStyleClass = "";
+  let taskPriorityText = "";
+  switch (data.priority) {
+    case 1:
+      taskPriorityText = "High";
+      taskPriorityStyleClass = "priorityHigh";
+      break;
+    case 2:
+      taskPriorityText = "Medium";
+      taskPriorityStyleClass = "priorityMed";
+      break;
+    default:
+      taskPriorityText = "Low";
+      taskPriorityStyleClass = "priorityLow";
+      break;
+  }
+
+  let template = `
+    <tr>
+      <td colspan="2">${data.task}</td>
       <td class="${taskPriorityStyleClass}">${taskPriorityText}</td>
       <td>${dateFormatter(data.startDt)}</td>
       <td>${dateFormatter(data.dueDt)}</td>
@@ -264,7 +306,7 @@ const loadTableData = (
   inpTaskTableBody.innerHTML = allInpTaskList;
   let allDoneTaskList = "";
   for (let i = 0; i < done_todos.length; i++) {
-    allDoneTaskList += generateTableRowData(done_todos[i]);
+    allDoneTaskList += generateTableDoneData(done_todos[i]);
   }
   doneTaskTableBody.innerHTML = allDoneTaskList;
   let allLateTaskList = "";
@@ -273,6 +315,27 @@ const loadTableData = (
   }
   lateTaskTableBody.innerHTML = allLateTaskList;
   refreshTableLayout();
+};
+
+const updateTodoById = (id) => {
+  let selectedTodo = todos.find((todo) => todo.id == id);
+  todos = todos.filter((todo) => todo.id !== id);
+  if (selectedTodo.status == Status.NEW) {
+    selectedTodo = { ...selectedTodo, status: Status.INP };
+  } else if (selectedTodo.status == Status.LATE) {
+    selectedTodo = {
+      ...selectedTodo,
+      status: Status.INP,
+      startDt: new Date().toLocaleDateString(),
+    };
+  } else if (selectedTodo.status == Status.INP) {
+    selectedTodo = { ...selectedTodo, status: Status.DONE };
+  } else if (selectedTodo.status == Status.DONE) {
+    selectedTodo = { ...selectedTodo, status: Status.INP };
+  }
+  todos.push(selectedTodo);
+  localStorage.setItem("todo", JSON.stringify(todos));
+  loadTableData();
 };
 
 const deleteTodoById = (id) => {
