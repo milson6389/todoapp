@@ -114,7 +114,8 @@ const refreshArrayContentSource = (
       todo.status !== Status.DONE &&
       todo.task.toLowerCase().includes(query.task.toLowerCase()) &&
       query.priority.includes(todo.priority) &&
-      todo.dueDt < new Date().toLocaleDateString()
+      todo.dueDt < new Date().toLocaleDateString() &&
+      todo.startDt < new Date().toLocaleDateString()
   );
 };
 
