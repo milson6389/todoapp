@@ -11,11 +11,15 @@ const titleEmpty = document.querySelector("p.titleEmpty");
 const priorityEmpty = document.querySelector("p.priorityEmpty");
 
 // Bagian Table
+const sectionTodoList = document.getElementById("todoList");
 const newTaskTable = document.getElementById("new");
 const newTaskTableBody = document.getElementById("newTaskRow");
 const inpTaskTable = document.getElementById("inprogress");
+const inpTaskTableBody = document.getElementById("inpTaskRow");
 const doneTaskTable = document.getElementById("complete");
+const doneTaskTableBody = document.getElementById("doneTaskRow");
 const lateTaskTable = document.getElementById("overdue");
+const lateTaskTableBody = document.getElementById("lateTaskRow");
 
 // Function to sort array of object by object's property
 const sortAscBy = (arr, prop, isDateType = false) => {
@@ -108,6 +112,8 @@ const refreshArrayContentSource = (
   late_todos = source.filter(
     (todo) =>
       todo.status !== Status.DONE &&
+      todo.task.includes(query.task) &&
+      query.priority.includes(todo.priority) &&
       todo.dueDt < new Date().toLocaleDateString()
   );
 };
@@ -136,6 +142,12 @@ const refreshTableLayout = () => {
 todos = sortDscBy(todos, "startDt", true);
 todos = sortAscBy(todos, "priority");
 
+const formInputReset = () => {
+  inputTodo.value = "";
+  (inputDueDate.value = new Date().toLocaleDateString()),
+    (inputPriority.value = "");
+};
+
 const addTodo = () => {
   if (inputTodo.value.trim() !== "" && inputPriority.value.trim() !== "") {
     titleEmpty.setAttribute("hidden", true);
@@ -143,7 +155,9 @@ const addTodo = () => {
     let newTodo = {
       id: +new Date(),
       task: inputTodo.value,
-      startDt: new Date().toLocaleDateString(),
+      startDt: inputDueDate.value
+        ? new Date(inputDueDate.value).toLocaleDateString()
+        : new Date().toLocaleDateString(),
       dueDt: inputDueDate.value
         ? new Date(inputDueDate.value).toLocaleDateString()
         : new Date().toLocaleDateString(),
@@ -152,9 +166,14 @@ const addTodo = () => {
     };
     todos.push(newTodo);
     localStorage.setItem("todo", JSON.stringify(todos));
+    formInputReset();
   } else {
-    titleEmpty.removeAttribute("hidden");
-    priorityEmpty.removeAttribute("hidden");
+    if (inputTodo.value.trim() == "") {
+      titleEmpty.removeAttribute("hidden");
+    }
+    if (inputPriority.value.trim() == "") {
+      priorityEmpty.removeAttribute("hidden");
+    }
   }
   loadTableData();
 };
@@ -178,7 +197,8 @@ const searchTodo = () => {
     startDt: searchByDate,
     priority: priorities,
   };
-  refreshArrayContentSource(todos, searchQueries);
+  inputPriority.value = ""; //bisa menampilkan semua priority level kembali
+  loadTableData(searchQueries);
 };
 
 const generateTableRowData = (data) => {
@@ -210,7 +230,7 @@ const generateTableRowData = (data) => {
       <td>${dateFormatter(data.startDt)}</td>
       <td>${dateFormatter(data.dueDt)}</td>
       <td>
-        <button class="deleteTodo">
+        <button class="deleteTodo" onclick="deleteTodoById(${data.id})">
           <i class="fa-solid fa-trash"></i>
         </button>
       </td>
@@ -219,22 +239,57 @@ const generateTableRowData = (data) => {
   return template;
 };
 
-const loadTableData = () => {
-  refreshArrayContentSource(todos);
+const loadTableData = (
+  query = {
+    task: "",
+    startDt: new Date().toLocaleDateString(),
+    priority: [1, 2, 3],
+  }
+) => {
+  refreshArrayContentSource(todos, query);
+  sectionTodoList.style.display = "flex";
+  if (todos.length === 0) {
+    sectionTodoList.style.display = "none";
+  }
+
   let allNewTaskList = "";
   for (let i = 0; i < new_todos.length; i++) {
     allNewTaskList += generateTableRowData(new_todos[i]);
   }
   newTaskTableBody.innerHTML = allNewTaskList;
+  let allInpTaskList = "";
+  for (let i = 0; i < inp_todos.length; i++) {
+    allInpTaskList += generateTableRowData(inp_todos[i]);
+  }
+  inpTaskTableBody.innerHTML = allInpTaskList;
+  let allDoneTaskList = "";
+  for (let i = 0; i < done_todos.length; i++) {
+    allDoneTaskList += generateTableRowData(done_todos[i]);
+  }
+  doneTaskTableBody.innerHTML = allDoneTaskList;
+  let allLateTaskList = "";
+  for (let i = 0; i < late_todos.length; i++) {
+    allLateTaskList += generateTableRowData(late_todos[i]);
+  }
+  lateTaskTableBody.innerHTML = allLateTaskList;
   refreshTableLayout();
+};
+
+const deleteTodoById = (id) => {
+  if (confirm("Delete Todo ?")) {
+    todos = todos.filter((todo) => todo.id !== id);
+    localStorage.setItem("todo", JSON.stringify(todos));
+    formInputReset();
+    loadTableData();
+  }
 };
 
 const deleteAllTodo = () => {
   if (confirm("Delete All Todo ?")) {
     todos = [];
     localStorage.removeItem("todo");
-    refreshArrayContentSource(todos);
-    refreshTableLayout();
+    formInputReset();
+    loadTableData();
   }
 };
 

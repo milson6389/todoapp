@@ -58,6 +58,7 @@ button {
 }
 
 .input-group input,
+.input-group textarea,
 .input-group select {
   padding: 10px;
 }
@@ -88,8 +89,9 @@ button {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(2, auto);
+  grid-template-rows: repeat(2, auto);
   justify-content: center;
-  align-items: center;
+  align-items: start;
   gap: 5%;
 }
 
