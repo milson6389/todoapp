@@ -69,6 +69,7 @@
       </section>
       <section id="todoList">
         <div class="clearAll">
+          <h1 id="currDate"></h1>
           <button id="clearTodo">
             <i class="fa-solid fa-trash"></i>
             Delete All
@@ -78,7 +79,7 @@
           <table id="new">
             <thead>
               <tr>
-                <th class="tableTitle" colspan="6">New</th>
+                <th class="tableTitle" colspan="7">New</th>
               </tr>
               <tr class="colTitle">
                 <th>#</th>
@@ -86,7 +87,7 @@
                 <th>Priority</th>
                 <th>Start Date</th>
                 <th>Due Date</th>
-                <th>Action</th>
+                <th colspan="2">Action</th>
               </tr>
             </thead>
             <tbody id="newTaskRow"></tbody>
@@ -94,7 +95,7 @@
           <table hidden id="inprogress">
             <thead>
               <tr>
-                <th class="tableTitle" colspan="6">In Progress</th>
+                <th class="tableTitle" colspan="7">In Progress</th>
               </tr>
               <tr class="colTitle">
                 <th>#</th>
@@ -102,7 +103,7 @@
                 <th>Priority</th>
                 <th>Start Date</th>
                 <th>Due Date</th>
-                <th>Action</th>
+                <th colspan="2">Action</th>
               </tr>
             </thead>
             <tbody id="inpTaskRow"></tbody>
@@ -110,14 +111,14 @@
           <table hidden id="complete">
             <thead>
               <tr>
-                <th class="tableTitle" colspan="6">Done</th>
+                <th class="tableTitle" colspan="7">Done</th>
               </tr>
               <tr class="colTitle">
                 <th colspan="2">Todo</th>
                 <th>Priority</th>
                 <th>Start Date</th>
                 <th>Due Date</th>
-                <th>Action</th>
+                <th colspan="2">Action</th>
               </tr>
             </thead>
             <tbody id="doneTaskRow"></tbody>
@@ -125,7 +126,7 @@
           <table hidden id="overdue">
             <thead>
               <tr>
-                <th class="tableTitle" colspan="6">Overdue</th>
+                <th class="tableTitle" colspan="7">Overdue</th>
               </tr>
               <tr class="colTitle">
                 <th>#</th>
@@ -133,7 +134,7 @@
                 <th>Priority</th>
                 <th>Start Date</th>
                 <th>Due Date</th>
-                <th>Action</th>
+                <th colspan="2">Action</th>
               </tr>
             </thead>
             <tbody id="lateTaskRow"></tbody>

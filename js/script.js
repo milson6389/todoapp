@@ -11,6 +11,7 @@ const titleEmpty = document.querySelector("p.titleEmpty");
 const priorityEmpty = document.querySelector("p.priorityEmpty");
 
 // Bagian Table
+const todoCurrentDate = document.getElementById("currDate");
 const sectionTodoList = document.getElementById("todoList");
 const newTaskTable = document.getElementById("new");
 const newTaskTableBody = document.getElementById("newTaskRow");
@@ -36,7 +37,7 @@ const sortDscBy = (arr, prop, isDateType = false) => {
 };
 
 // Function to format date with custom format "Day, date month year"
-const dateFormatter = (date) => {
+const dateFormatter = (date, currentDate = false) => {
   const daysOfWeek = [
     "Sunday",
     "Monday",
@@ -61,7 +62,10 @@ const dateFormatter = (date) => {
     "December",
   ];
   date = new Date(date);
-  const dayOfWeek = daysOfWeek[date.getDay()];
+  let dayOfWeek = daysOfWeek[date.getDay()];
+  if (currentDate) {
+    dayOfWeek = "Today";
+  }
   const dayOfMonth = date.getDate();
   const month = months[date.getMonth()];
   const year = date.getFullYear();
@@ -226,7 +230,7 @@ const generateTableRowData = (data) => {
   }
 
   let template = `
-    <tr class="${checkedStyleClass}" id="${data.id}">
+    <tr id="${data.id}">
       <td>
         <input type="checkbox" ${
           data.status === Status.DONE ? "checked" : ""
@@ -234,10 +238,22 @@ const generateTableRowData = (data) => {
     data.id
   })"  />
       </td>
-      <td>${data.task}</td>
-      <td class="${taskPriorityStyleClass}">${taskPriorityText}</td>
-      <td>${dateFormatter(data.startDt)}</td>
-      <td>${dateFormatter(data.dueDt)}</td>
+      <td class="${checkedStyleClass}" >${data.task}</td>
+      <td class="${taskPriorityStyleClass} ${checkedStyleClass}">${taskPriorityText}</td>
+      <td class="${checkedStyleClass}">${dateFormatter(data.startDt)}</td>
+      <td class="${checkedStyleClass}">${dateFormatter(data.dueDt)}</td>
+      ${
+        data.status === Status.INP || data.status === Status.DONE
+          ? `
+          <td>
+            <button class="rollback" onclick="cancelTodoById(${data.id})">
+              <i class="fa-solid fa-rotate-left"></i>
+            </button>
+          </td>
+        `
+          : ""
+      }
+
       <td>
         <button class="deleteTodo" onclick="deleteTodoById(${data.id})">
           <i class="fa-solid fa-trash"></i>
@@ -339,6 +355,16 @@ const updateTodoById = (id) => {
   loadTableData();
 };
 
+// Rollback inprogress -> new
+const cancelTodoById = (id) => {
+  let selectedTodo = todos.find((todo) => todo.id == id);
+  todos = todos.filter((todo) => todo.id !== id);
+  selectedTodo = { ...selectedTodo, status: Status.NEW };
+  todos.push(selectedTodo);
+  localStorage.setItem("todo", JSON.stringify(todos));
+  loadTableData();
+};
+
 const deleteTodoById = (id) => {
   if (confirm("Delete Todo ?")) {
     todos = todos.filter((todo) => todo.id !== id);
@@ -375,5 +401,5 @@ buttonDeleteAll.addEventListener("click", (e) => {
 window.addEventListener("DOMContentLoaded", () => {
   inputDueDate.placeholder = new Intl.DateTimeFormat().format(new Date());
   loadTableData();
-  console.log("Todos: ", todos);
+  todoCurrentDate.innerText = dateFormatter(new Date(), true);
 });

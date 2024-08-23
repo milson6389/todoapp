@@ -96,9 +96,16 @@ button:hover {
 
 .clearAll {
   display: flex;
-  justify-content: end;
   align-items: center;
   margin-bottom: 5%;
+}
+
+.clearAll h1 {
+  margin-right: auto;
+}
+
+#clearTodo {
+  margin-left: auto;
 }
 
 .table-container {
@@ -158,6 +165,16 @@ button.deleteTodo {
   cursor: pointer;
 }
 
+button.rollback {
+  border: none;
+  color: goldenrod;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  cursor: pointer;
+}
+
 .taskChecked {
   text-decoration: line-through;
 }
@@ -195,5 +212,11 @@ button.deleteTodo {
 
   .table-container {
     grid-template-columns: auto;
+  }
+
+  .input-group,
+  .button-group,
+  .clearAll {
+    padding: 5px 2%;
   }
 }
