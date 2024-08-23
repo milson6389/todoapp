@@ -11,6 +11,7 @@ const titleEmpty = document.querySelector("p.titleEmpty");
 const priorityEmpty = document.querySelector("p.priorityEmpty");
 
 // Bagian Table
+const todoCurrentDate = document.getElementById("currDate");
 const sectionTodoList = document.getElementById("todoList");
 const newTaskTable = document.getElementById("new");
 const newTaskTableBody = document.getElementById("newTaskRow");
@@ -36,7 +37,7 @@ const sortDscBy = (arr, prop, isDateType = false) => {
 };
 
 // Function to format date with custom format "Day, date month year"
-const dateFormatter = (date) => {
+const dateFormatter = (date, currentDate = false) => {
   const daysOfWeek = [
     "Sunday",
     "Monday",
@@ -61,7 +62,10 @@ const dateFormatter = (date) => {
     "December",
   ];
   date = new Date(date);
-  const dayOfWeek = daysOfWeek[date.getDay()];
+  let dayOfWeek = daysOfWeek[date.getDay()];
+  if (currentDate) {
+    dayOfWeek = "Today";
+  }
   const dayOfMonth = date.getDate();
   const month = months[date.getMonth()];
   const year = date.getFullYear();
@@ -397,5 +401,5 @@ buttonDeleteAll.addEventListener("click", (e) => {
 window.addEventListener("DOMContentLoaded", () => {
   inputDueDate.placeholder = new Intl.DateTimeFormat().format(new Date());
   loadTableData();
-  console.log("Todos: ", todos);
+  todoCurrentDate.innerText = dateFormatter(new Date(), true);
 });
