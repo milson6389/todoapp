@@ -226,7 +226,7 @@ const generateTableRowData = (data) => {
   }
 
   let template = `
-    <tr class="${checkedStyleClass}" id="${data.id}">
+    <tr id="${data.id}">
       <td>
         <input type="checkbox" ${
           data.status === Status.DONE ? "checked" : ""
@@ -234,10 +234,22 @@ const generateTableRowData = (data) => {
     data.id
   })"  />
       </td>
-      <td>${data.task}</td>
-      <td class="${taskPriorityStyleClass}">${taskPriorityText}</td>
-      <td>${dateFormatter(data.startDt)}</td>
-      <td>${dateFormatter(data.dueDt)}</td>
+      <td class="${checkedStyleClass}" >${data.task}</td>
+      <td class="${taskPriorityStyleClass} ${checkedStyleClass}">${taskPriorityText}</td>
+      <td class="${checkedStyleClass}">${dateFormatter(data.startDt)}</td>
+      <td class="${checkedStyleClass}">${dateFormatter(data.dueDt)}</td>
+      ${
+        data.status === Status.INP || data.status === Status.DONE
+          ? `
+          <td>
+            <button class="rollback" onclick="cancelTodoById(${data.id})">
+              <i class="fa-solid fa-rotate-left"></i>
+            </button>
+          </td>
+        `
+          : ""
+      }
+
       <td>
         <button class="deleteTodo" onclick="deleteTodoById(${data.id})">
           <i class="fa-solid fa-trash"></i>
@@ -334,6 +346,16 @@ const updateTodoById = (id) => {
   } else if (selectedTodo.status == Status.DONE) {
     selectedTodo = { ...selectedTodo, status: Status.INP };
   }
+  todos.push(selectedTodo);
+  localStorage.setItem("todo", JSON.stringify(todos));
+  loadTableData();
+};
+
+// Rollback inprogress -> new
+const cancelTodoById = (id) => {
+  let selectedTodo = todos.find((todo) => todo.id == id);
+  todos = todos.filter((todo) => todo.id !== id);
+  selectedTodo = { ...selectedTodo, status: Status.NEW };
   todos.push(selectedTodo);
   localStorage.setItem("todo", JSON.stringify(todos));
   loadTableData();

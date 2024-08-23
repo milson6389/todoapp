@@ -158,6 +158,16 @@ button.deleteTodo {
   cursor: pointer;
 }
 
+button.rollback {
+  border: none;
+  color: goldenrod;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  cursor: pointer;
+}
+
 .taskChecked {
   text-decoration: line-through;
 }
